@@ -1,5 +1,2 @@
-# 这是一个简单的示例 Dockerfile
-FROM ubuntu:latest
-WORKDIR /app
-COPY . /app
-CMD ["echo", "Hello, Docker!"]
+FROM nginx:1.24-alpine
+COPY . /usr/share/nginx/html
