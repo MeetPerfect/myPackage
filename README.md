@@ -1,101 +1,58 @@
-<header>
+# MeetPerfect/myPackage
 
-<!--
-  <<< Author notes: Course header >>>
-  Include a 1280×640 image, course title in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Add your open source license, GitHub uses the MIT license.
--->
+> 自动化发布 Docker 镜像，模板示例
 
-# Publish to GitHub Packages
+## 项目简介
+本项目通过 GitHub Actions 实现自动化发布 Docker 镜像到 GitHub Packages，适用于前端或静态网站自动部署场景。
 
-_Use GitHub Actions to publish your project to a Docker image._
+- 主要包含 HTML 页面和简单 Docker 环境支持
+- 教程、模板与实际工程可自定义拓展
 
-</header>
+## 技术栈与依赖
+- HTML（98.4%）
+- Docker（1.6%）
+- GitHub Actions（CI/CD）
 
-<!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
--->
+## 快速开始
 
-## Step 1: Create the workflow file
-
-_Welcome to "Publish packages"! :wave:_
-
-First, take a moment to examine the image below. It shows the relationship between _continuous integration_, _continuous delivery_ and _continuous deployment_.
-
-![](https://i.imgur.com/xZCkjmU.png)
-
-**Continuous integration** (CI) is a practice where developers integrate tested code into a shared branch several times per day. **Continuous delivery** (CD) is the next phase of **continuous integration** (CI) where we also make sure to package the code in a _release_ and store it somewhere - preferably, in an artifact repository. Lastly, **Continuous deployment** (CD) takes **continuous delivery** (CD) to the next level by directly deploying our releases to the world.
-
-[**Docker**](https://www.docker.com/why-docker) is an engine that allows you to run containers.
-Containers are packages of software that can run reliably in different environments. Containers include everything needed to run the application. Containers are lightweight in comparison to virtual machines. A **Dockerfile** is a text document that contains all the commands and instructions necessary to build a Docker Image. A **Docker image** is an executable package comprised of code, dependencies, libraries, a runtime, environment variables, and configuration files. A **Docker container** is a runtime instance of a Docker Image.
-
-We'll start by creating the workflow file to publish a Docker image to GitHub Packages.
-
-### :keyboard: Activity: Create the workflow file
-
-1. Open a new browser tab, and work on the steps in your second tab while you read the instructions in this tab.
-1. Navigate to the **Code** tab.
-1. From the **main** branch dropdown, click on the **cd** branch.
-1. Navigate to the `.github/workflows/` folder, then select **Add file** and click on **Create new file**.
-1. In the **Name your file...** field, enter `publish.yml`.
-1. Add the following to the `publish.yml` file:
-   ```yml
-   name: Publish to Docker
-   on:
-     push:
-       branches:
-         - main
-   permissions:
-     packages: write
-     contents: read
-   jobs:
-     publish:
-       runs-on: ubuntu-latest
-       steps:
-         - name: Checkout
-           uses: actions/checkout@v4
-         # Add your test steps here if needed...
-         - name: Docker meta
-           id: meta
-           uses: docker/metadata-action@v5
-           with:
-             images: ghcr.io/YOURNAME/publish-packages/game
-             tags: type=sha
-         - name: Login to GHCR
-           uses: docker/login-action@v3
-           with:
-             registry: ghcr.io
-             username: ${{ github.repository_owner }}
-             password: ${{ secrets.GITHUB_TOKEN }}
-         - name: Build container
-           uses: docker/build-push-action@v5
-           with:
-             context: .
-             push: true
-             tags: ${{ steps.meta.outputs.tags }}
+1. 克隆或 Fork 仓库
+   ```bash
+   git clone https://github.com/MeetPerfect/myPackage.git
    ```
-1. Replace `YOURNAME` with your username.
-1. Make sure that the image name is unique.
-1. Commit your changes.
-1. (optional) Create a pull request to view all the changes you'll make throughout this course. Click the **Pull Requests** tab, click **New pull request**, set `base: main` and `compare:cd`.
-1. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+2. 查看并自定义 [Dockerfile](Dockerfile)（如有）
+3. 项目默认发布流程参考 `.github/workflows/publish.yml`
 
-<footer>
+## 项目目录结构
+```
+myPackage/
+├── index.html          # 主页面
+├── Dockerfile          # Docker 镜像配置
+├── .github/workflows/  # CI/CD 工作流
+└── README.md           # 项目说明文档
+```
 
-<!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
+## 自动化发布（CI/CD）
+
+已内置 GitHub Actions 工作流，推送到 `main` 后自动构建并发布 Docker 镜像。
+
+- 用于持续集成、持续交付/部署（CI/CD）
+- 镜像自动上传至 GHCR（GitHub Container Registry）
+
+自定义流程，可按照实际项目模块进行扩展。
+
+## 许可证
+本项目采用 MIT License。
+参见 [LICENSE](LICENSE) 文件。
+
+## 贡献指南
+欢迎 Issues 和 PR！
+
+- 请使用标准 Issue 模板提交问题与建议
+- 对于代码提交建议请 Fork 仓库后发起 PR，并描述改动动机
+
+## 联系方式与社区
+- 作者: MeetPerfect
+- GitHub: [@MeetPerfect](https://github.com/MeetPerfect)
 
 ---
-
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/publish-packages) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
-
-&copy; 2023 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
-
-</footer>
+Copilot 由 AI 驱动，可能会出现错误。如需反馈请通过 👍 👎 留言帮助改进体验。
